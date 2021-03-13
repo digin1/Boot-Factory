@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Boot_Factory.Models.Products>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+
+    </ol>
+    <div class="carousel-inner">
+
+        <div class="carousel-item active">
+            <a asp-area="" asp-controller="Home" asp-action="HotDeals"><img class="d-block w-100" src="/images/hotdeals.jpg" alt="Hot Deals"></a>
+        </div>
+        <div class="carousel-item">
+            <a asp-area="" asp-controller="Home" asp-action="NewArrivals"><img class="d-block w-100" src="/images/newarrivals.jpg" alt="New Arrivals"></a>
+        </div>
+        <div class="carousel-item">
+            <a asp-area="" asp-controller="Home" asp-action="SummerSale"><img class="d-block w-100" src="/images/summersale.jpg" alt="Summer Sale"></a>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+
+<div class="container p-4" style="background-color: #f1f3f6">
+    <div class="card">
+        <div class="card-header">
+            Welcome!
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <video class="embed-responsive" id="myvideo">
+                            <source src="/media/video.mp4" type="video/mp4">
+                            Video player not available
+                        </video>
+                    </div>
+                    <div class="row alert alert-dark justify-content-around flex-nowrap">
+
+
+                        <input class="tslider mt-2" type="range" min="0" max="100" value="0" step="1" id="moveSlider">
+
+
+                         <button class="btn btn-outline-dark btn" id="playbutton" onclick="playVideo()"><i class="fa fa-play"></i></button>
+                         <button class="btn btn-outline-dark" id="stopbtn" onclick=""><i class="fa fa-stop"></i></button>
+                          <button class="btn btn-outline-dark" id="audiobutton" onclick="audio()"><i class="fa fa-volume-up"></i></button>
+
+
+                        <input class="tslider mt-2" id="vol-control" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)">
+
+
+                    </div>
+                    <div class="row">
+
+                        <ul class="list-group list-group-flush mx-auto justify-content-center">
+                            <li class="list-group-item">
+                                
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <h4>Welcome to our Boot Factory website</h4>
+                    <p>
+                        We are a Small company focused on selling wide range of footwears. Our customer base is rapidly growing each day which gives us confidence to provde more products for you. Our products are available at an affordable price. Go check out our products below.
+                    </p>
+                    <b>Happy Shopping!</b>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid p-4" style="background-color: #f1f3f6">
+    <div class="row row-cols-1 row-cols-md-4">
+        @foreach (var item in Model)
+        {
+            <div class="col mb-4 mx-auto">
+                <div class="card shadow-sm" style="width: 15rem;">
+                    <img class="card-img-top" src="/images/ItemImages/@Html.DisplayFor(modelItem => item.ProductImage)" alt="@Html.DisplayFor(modelItem => item.ProductName)">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.ProductDescription)</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            Price : <b>£@Html.DisplayFor(modelItem => item.ProductPrice)</b>
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <a asp-action="ItemPage" class="btn btn-primary stretched-link" asp-route-id="@item.Id">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

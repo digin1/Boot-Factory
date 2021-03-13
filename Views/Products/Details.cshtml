@@ -1,0 +1,38 @@
+﻿
+@model Boot_Factory.Models.Products
+
+@{
+    ViewData["Title"] = "Item Details";
+}
+
+
+
+<div>
+
+
+    <div class="container">
+        <hr />
+        <h4>@Html.DisplayFor(model => model.ProductName)</h4>
+        <hr />
+        <div class="row align-items-start">
+            <div class="col">
+                <img src="/images/ItemImages/@Html.DisplayFor(model => model.ProductImage)" class="rounded float-start h-100" alt="@Html.DisplayFor(model => model.ProductName)">
+            </div>
+            <div class="col">
+                <div class="card shadow-sm" style="width: 100%">
+                    <div class="card-body">
+                        <h5 class="card-title">£@Html.DisplayFor(model => model.ProductPrice)</h5>
+                        <p class="card-text">@Html.DisplayFor(model => model.ProductDescription)</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><span class="badge rounded-pill bg-primary text-white">@Html.DisplayFor(model => model.ProductSeason)</span></li>
+                    </ul>
+                    <div class="card-body">
+                            <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Id">Update</a>
+                            <a asp-action="Delete" class="btn btn-danger" asp-route-id="@Model.Id">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

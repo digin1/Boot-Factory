@@ -1,0 +1,155 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@using Microsoft.AspNetCore.Http
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Boot Factory</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-purple border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Boot Factory</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ContactUs" asp-action="Create">Contact Us</a>
+                        </li>
+
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                        <ul class="navbar-nav">
+
+                            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="btn btn-dark nav-link" asp-area="" asp-controller="Products" asp-action="Index">
+                                        <i class="fa fa-home" aria-hidden="true"></i> Admin Home
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-dark nav-link" asp-area="" asp-controller="Products" asp-action="Sales">
+                                        <i class="fa fa-archive" aria-hidden="true"></i> Sales
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-dark nav-link" asp-area="" asp-controller="Categories" asp-action="Index">
+                                        <i class="fa fa-thumb-tack" aria-hidden="true"></i> Categories
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-dark nav-link" asp-area="" asp-controller="ContactUs" asp-action="Index">
+                                        <i class="fa fa-inbox" aria-hidden="true"></i> Queries
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="btn btn-dark nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                                        <i class="fa fa-home" aria-hidden="true"></i> Home
+                                    </a>
+                                </li>
+                            }
+
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link btn btn-dark dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-cubes" aria-hidden="true"></i> Catalogue
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Men">Men</a>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Women">Women</a>
+                                </ul>
+                            </li>
+
+                                
+
+                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
+                                {
+
+                                    <li>
+                                        <a class="btn btn-dark nav-link" asp-area="" asp-controller="Home" asp-action="Basket">
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket <span class="badge bg-warning text-black-50">@Context.Session.GetInt32(User.Identity.Name)</span>
+                                        </a>
+                                    </li>
+                                }
+                                else if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                {
+
+
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a class="btn btn-dark nav-link" asp-area="" asp-controller="Home" asp-action="Basket">
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket
+                                        </a>
+                                    </li>
+                                }
+                        </ul>
+                    </div>
+                    <form class="d-flex nav-link" asp-action="Search" asp-controller="Home" method="get">
+                        <input required class="form-control mr-2" type="search" name="SearchText" placeholder="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+
+            </nav>
+            <div class="container p-4" style="background-color: #f1f3f6">
+                @RenderBody()
+                </div>
+
+</main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - Boot_Factory - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

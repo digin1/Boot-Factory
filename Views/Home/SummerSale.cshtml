@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Boot_Factory.Models.Products>
+
+
+@{
+    ViewData["Title"] = "Summer Sale";
+}
+
+<div class="container-fluid p-4" style="background-color: #f1f3f6">
+    <div class="row row-cols-1 row-cols-md-4">
+        @foreach (var item in Model)
+        {
+            <div class="col mb-4 mx-auto">
+                <div class="card  shadow-sm" style="width: 15rem;">
+                    <img class="card-img-top" src="/images/ItemImages/@Html.DisplayFor(modelItem => item.ProductImage)" alt="@Html.DisplayFor(modelItem => item.ProductName)">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.ProductDescription)</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            Price : <b>£@Html.DisplayFor(modelItem => item.ProductPrice)</b>
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <a asp-action="ItemPage" class="btn btn-primary stretched-link" asp-route-id="@item.Id">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
