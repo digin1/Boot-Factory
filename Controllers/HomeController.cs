@@ -167,15 +167,21 @@ namespace Boot_Factory.Controllers
 
         }
 
+        public IActionResult About()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
             return View();
         }
-        public IActionResult About()
+        public IActionResult Checkout()
         {
             return View();
         }
+
+
         public async Task<IActionResult> Basket()
         {
             var item = from pdt in _context.Products
