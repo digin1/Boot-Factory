@@ -14,9 +14,6 @@ using System.Threading.Tasks;
 
 
 
-
-
-
 namespace Boot_Factory.Controllers
 {
     public class HomeController : Controller
@@ -34,6 +31,7 @@ namespace Boot_Factory.Controllers
 
         public async Task<IActionResult> Index()
         {
+
             return View(await _context.Products.ToListAsync());
         }
 
@@ -143,8 +141,8 @@ namespace Boot_Factory.Controllers
                 var salesdata = from m in _context.Sales
                                 select m;
 
-                int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(User.Identity.Name) && s.SaleStatus.Equals(false));
-                HttpContext.Session.SetInt32(User.Identity.Name, salesdta+1);
+                int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(User.Identity.Name) && s.SaleStatus.Equals(false))+1;
+                HttpContext.Session.SetInt32("SessionCart", salesdta);
 
                 _context.SaveChanges();
 
@@ -162,7 +160,7 @@ namespace Boot_Factory.Controllers
                             select m;
 
             int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(User.Identity.Name) && s.SaleStatus.Equals(false));
-            HttpContext.Session.SetInt32(User.Identity.Name, salesdta);
+            HttpContext.Session.SetInt32("SessionCart", salesdta);
 
             return RedirectToAction(nameof(Basket));
 

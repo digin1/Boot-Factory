@@ -85,6 +85,13 @@ namespace Boot_Factory.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
+            var salesdata = from m in _context.Sales
+                            select m;
+
+            int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(Input.Email) && s.SaleStatus.Equals(false));
+
+            HttpContext.Session.SetInt32("SessionCart", salesdta);
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         
             if (ModelState.IsValid)
@@ -95,6 +102,8 @@ namespace Boot_Factory.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    
 
                     return LocalRedirect(returnUrl);
                 }

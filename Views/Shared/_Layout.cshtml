@@ -6,7 +6,6 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,30 +101,30 @@
                                 </ul>
                             </li>
 
-                                
-
-                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
-                                {
-
-                                    <li>
-                                        <a class="btn btn-dark nav-link" asp-area="" asp-controller="Home" asp-action="Basket">
-                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket <span class="badge bg-warning text-black-50">@Context.Session.GetInt32(User.Identity.Name)</span>
-                                        </a>
-                                    </li>
-                                }
-                                else if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                                {
 
 
-                                }
-                                else
-                                {
-                                    <li>
-                                        <a class="btn btn-dark nav-link" asp-area="" asp-controller="Home" asp-action="Basket">
-                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket
-                                        </a>
-                                    </li>
-                                }
+                            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
+                            {
+
+                                <li>
+                                    <a class="btn btn-dark nav-link" asp-area="" asp-controller="Home" asp-action="Basket">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket <span class="badge bg-warning text-black-50">@Context.Session.GetInt32("SessionCart")</span>
+                                    </a>
+                                </li>
+                            }
+                            else if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                            {
+
+
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="btn btn-dark nav-link" asp-area="" asp-controller="Home" asp-action="Basket">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <form class="d-flex nav-link" asp-action="Search" asp-controller="Home" method="get">
@@ -137,9 +136,9 @@
             </nav>
             <div class="container p-4" style="background-color: #f1f3f6">
                 @RenderBody()
-                </div>
+            </div>
 
-</main>
+        </main>
     </div>
 
     <footer class="border-top footer text-muted">
