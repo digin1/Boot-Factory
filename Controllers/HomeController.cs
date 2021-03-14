@@ -178,6 +178,16 @@ namespace Boot_Factory.Controllers
         }
         public IActionResult Checkout()
         {
+
+            var sales = _context.Sales.Where(s => s.CustomerEmail.Equals(User.Identity.Name) && s.SaleStatus.Equals(false));
+
+            foreach (var eachrow in sales)
+            {
+                // change the properties
+                eachrow.SaleStatus = true;
+            }
+            HttpContext.Session.SetInt32("SessionCart", 0);
+            _context.SaveChanges();
             return View();
         }
 
@@ -186,7 +196,7 @@ namespace Boot_Factory.Controllers
         {
             var item = from pdt in _context.Products
                        join sal in _context.Sales on pdt.Id equals sal.ProductId 
-                       where sal.CustomerEmail == User.Identity.Name
+                       where sal.CustomerEmail == User.Identity.Name && sal.SaleStatus == false
                        select sal;
             ViewData["Sum"] = item.Sum(i => i.ItemCartPrice);
 
@@ -200,5 +210,19 @@ namespace Boot_Factory.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        public async Task<IActionResult> Orders ()
+        {
+            var item = from pdt in _context.Products
+                       join sal in _context.Sales on pdt.Id equals sal.ProductId
+                       where sal.CustomerEmail == User.Identity.Name && sal.SaleStatus == true
+                       select sal;
+
+            return View(await item.ToListAsync());
+
+        }
+
+
     }
 }

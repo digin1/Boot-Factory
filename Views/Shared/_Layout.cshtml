@@ -105,12 +105,20 @@
 
                             @if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
                             {
+                                <li>
+                                    <a class="btn btn-dark nav-link" asp-area="" asp-controller="Home" asp-action="Orders">
+                                        <i class="fa fa-truck" aria-hidden="true"></i> Orders
+                                    </a>
+                                </li>
 
                                 <li>
                                     <a class="btn btn-dark nav-link" asp-area="" asp-controller="Home" asp-action="Basket">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket <span class="badge bg-warning text-black-50">@Context.Session.GetInt32("SessionCart")</span>
                                     </a>
                                 </li>
+
+
+
                             }
                             else if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                             {

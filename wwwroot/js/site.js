@@ -59,29 +59,16 @@ function sliderPlay() {
     playbutton.innerHTML = "<i class='fa fa-pause'></i>";
 }
 
-//video.ontimeupdate = function () { timeDisplay() };
 
-//function timeDisplay() {
-//    document.getElementById("demo").innerHTML = Math.floor(video.currentTime);
-//}
-
-//function goToSecond() {
-//    video.currentTime = vidSetTime.innerText;
-//    video.pause();
-//}
-
-//pb.addEventListener("click", play);
 sb.addEventListener("click", stop);
 slider.addEventListener("change", dragSlider);
 video.addEventListener("timeupdate", moveSlider);
 slider.addEventListener("inout", sliderPause);
 slider.addEventListener("change", sliderPlay);
-//goToBttn.addEventListener("click", goToSecond);
+
 
 
 function SetVolume(val) {
     var player = document.getElementById('myvideo');
-    console.log('Before: ' + player.volume);
     player.volume = val / 100;
-    console.log('After: ' + player.volume);
 }
