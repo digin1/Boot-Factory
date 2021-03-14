@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Boot_Factory.Data;
 using Boot_Factory.Models;
@@ -20,52 +17,24 @@ namespace Boot_Factory.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
-        public ActionResult Menu(string dropdownMenuTitle)
-        {
-            ViewBag.DropdownMenuTitle = dropdownMenuTitle;
-
-            var categoriesQuery = from d in _context.Categories
-                                  orderby _context.Categories
-                                  select d;
-            return PartialView(categoriesQuery);
-        }
-
-        // GET: Categories
+        // List Categories
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Categories.ToListAsync());
         }
 
-        // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var categories = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (categories == null)
-            {
-                return NotFound();
-            }
-
-            return View(categories);
-        }
-
-        // GET: Categories/Create
+        // CAll Create Category View
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Add category to database
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Category")] Categories categories)
         {
             if (ModelState.IsValid)
@@ -77,7 +46,8 @@ namespace Boot_Factory.Controllers
             return View(categories);
         }
 
-        // GET: Categories/Edit/5
+        // Call edit category view
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -93,11 +63,10 @@ namespace Boot_Factory.Controllers
             return View(categories);
         }
 
-        // POST: Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Category edited in Database
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Category")] Categories categories)
         {
             if (id != categories.Id)
@@ -128,7 +97,8 @@ namespace Boot_Factory.Controllers
             return View(categories);
         }
 
-        // GET: Categories/Delete/5
+        // Call Delete category view
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -146,9 +116,10 @@ namespace Boot_Factory.Controllers
             return View(categories);
         }
 
-        // POST: Categories/Delete/5
+        //Delete category from database
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var categories = await _context.Categories.FindAsync(id);

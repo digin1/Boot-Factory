@@ -60,6 +60,7 @@ namespace Boot_Factory.Controllers
         }
 
         //POST: Edit/product/data/database
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProductName,ProductImage,ProductDescription,ProductPrice,ProductSeason,ProductGender")] Products products)
@@ -93,6 +94,7 @@ namespace Boot_Factory.Controllers
         }
 
         // GET: Products/Details/
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -111,16 +113,19 @@ namespace Boot_Factory.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
+
+            //Passing Categories table to ViewModel class
             MultipleData dataobj = new MultipleData();
             dataobj.Categories = _context.Categories.ToList();
             return View(dataobj);
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        // Add a product to database
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProductName,ProductImage,ProductDescription,ProductPrice,ProductSeason,ProductGender")] Products products)
@@ -137,6 +142,7 @@ namespace Boot_Factory.Controllers
 
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -155,6 +161,7 @@ namespace Boot_Factory.Controllers
         }
 
         // POST: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -20,8 +20,6 @@ namespace Boot_Factory.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-
-
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
@@ -85,12 +83,9 @@ namespace Boot_Factory.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            var salesdata = from m in _context.Sales
-                            select m;
 
-            int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(Input.Email) && s.SaleStatus.Equals(false));
+            
 
-            HttpContext.Session.SetInt32("SessionCart", salesdta);
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         
@@ -103,8 +98,15 @@ namespace Boot_Factory.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
 
-                    
+                    // Set session for Basket of customer
+                    var salesdata = from m in _context.Sales
+                                    select m;
+                    int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(Input.Email) && s.SaleStatus.Equals(false));
+                    HttpContext.Session.SetInt32("SessionCart", salesdta);
 
+                    if (Input.Email == "digin13dominic@gmail.com") {
+                        return RedirectToAction("Index", "Products");
+                    }
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

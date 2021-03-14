@@ -11,16 +11,16 @@ namespace Boot_Factory.Models
         public int Id{ get; set; }
         [Required]
         [Display(Name = "Name")]
-        [StringLength(100, ErrorMessage = "Item name should not exceed 100 characters")]
+        [StringLength(100, ErrorMessage = "Your name should not exceed 100 characters")]
         public string Name { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
-        [StringLength(100, ErrorMessage = "Image name should not exceed 100 characters")]
+        [StringLength(100, ErrorMessage = "Email should not exceed 100 characters")]
         public string Email { get; set; }
         [Required]
         [Display(Name = "Query")]
-        [StringLength(200, ErrorMessage = "Description should not exceed 200 characters")]
+        [StringLength(200, ErrorMessage = "Query should not exceed 200 characters")]
         public string Query { get; set; }
         public ContactUs()
         {

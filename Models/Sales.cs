@@ -8,6 +8,8 @@ namespace Boot_Factory.Models
 {
     public class Sales
     {
+
+        // Validation not required : No Form for input
         public int Id { get; set; }
         public string CustomerEmail { get; set; }
         public int ProductId { get; set; }
@@ -18,8 +20,6 @@ namespace Boot_Factory.Models
         public string ItemImage { get; set; }
 
         public int ItemCartPrice { get; set; }
-
-
 
         public Sales()
         {

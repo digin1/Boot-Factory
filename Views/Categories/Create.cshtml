@@ -1,14 +1,9 @@
 ﻿@model Boot_Factory.Models.Categories
 
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
+@{
+    ViewData["Title"] = "Create Category";
+}
 
 <h4>Categories</h4>
 <hr />
@@ -35,5 +30,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-</body>
-</html>
+

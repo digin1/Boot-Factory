@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Boot_Factory.Data;
 using Boot_Factory.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Boot_Factory.Controllers
 {
@@ -19,43 +20,29 @@ namespace Boot_Factory.Controllers
             _context = context;
         }
 
-        // GET: ContactUs
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.ContactUs.ToListAsync());
         }
 
-        // GET: ContactUs/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var contactUs = await _context.ContactUs
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (contactUs == null)
-            {
-                return NotFound();
-            }
-
-            return View(contactUs);
-        }
-
-        public IActionResult Success()
-        {
-            return View();
-        }
-        // GET: ContactUs/Create
+        
+        //Create a Query
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ContactUs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        // Query Submit view for users
+        [AllowAnonymous]
+        public IActionResult Success()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Email,Query")] ContactUs contactUs)
@@ -72,7 +59,8 @@ namespace Boot_Factory.Controllers
 
 
 
-        // GET: ContactUs/Delete/5
+        // Delete query
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -90,7 +78,8 @@ namespace Boot_Factory.Controllers
             return View(contactUs);
         }
 
-        // POST: ContactUs/Delete/5
+        // Delete query confirmation
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

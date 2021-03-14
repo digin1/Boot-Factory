@@ -29,6 +29,8 @@ namespace Boot_Factory.Controllers
         }
 
 
+        //Home page product listing view
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
 
@@ -36,7 +38,8 @@ namespace Boot_Factory.Controllers
         }
 
 
-        // GET: Home/Details
+        // Get each product information
+        [AllowAnonymous]
         public async Task<IActionResult> ItemPage(int? id)
         {
             if (id == null)
@@ -49,7 +52,9 @@ namespace Boot_Factory.Controllers
             return View(products);
         }
 
+        //Search for a product using keywords like Name,Season and Gender
         [HttpPost]
+        [AllowAnonymous]
         public string Search(string searchText, bool notUsed)
         {
             return "From [HttpPost]Index: filter on " + searchText;
@@ -71,6 +76,8 @@ namespace Boot_Factory.Controllers
             return View(item);
         }
 
+        // List products for Men
+        [AllowAnonymous]
         public async Task<IActionResult> Men()
         {
             var item = from m in _context.Products
@@ -80,6 +87,9 @@ namespace Boot_Factory.Controllers
 
             return View(await item.ToListAsync());
         }
+
+        // List products for Women
+        [AllowAnonymous]
         public async Task<IActionResult> Women()
         {
             var item = from m in _context.Products
@@ -90,6 +100,8 @@ namespace Boot_Factory.Controllers
             return View(await item.ToListAsync());
         }
 
+        // List products for Hot Deals
+        [AllowAnonymous]
         public async Task<IActionResult> HotDeals()
         {
             var item = from m in _context.Products
@@ -100,6 +112,8 @@ namespace Boot_Factory.Controllers
             return View(await item.ToListAsync());
         }
 
+        // List products for New Arrivals
+        [AllowAnonymous]
         public async Task<IActionResult> NewArrivals()
         {
             var item = from m in _context.Products
@@ -110,6 +124,8 @@ namespace Boot_Factory.Controllers
             return View(await item.ToListAsync());
         }
 
+        // List products for Summer Sale
+        [AllowAnonymous]
         public async Task<IActionResult> SummerSale()
         {
             var item = from m in _context.Products
@@ -120,6 +136,7 @@ namespace Boot_Factory.Controllers
             return View(await item.ToListAsync());
         }
 
+        // Add to Cart
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> AddtoCart(int id)
         {
@@ -138,6 +155,7 @@ namespace Boot_Factory.Controllers
 
                 }
 
+                // Updating session variable for basket count
                 var salesdata = from m in _context.Sales
                                 select m;
 
@@ -150,12 +168,16 @@ namespace Boot_Factory.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Delete from cart 
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> RemoveFromCart(int id)
         {
             var sale = await _context.Sales.FindAsync(id);
             _context.Sales.Remove(sale);
             await _context.SaveChangesAsync();
 
+
+            // Updating session variable for basket count
             var salesdata = from m in _context.Sales
                             select m;
 
@@ -163,19 +185,24 @@ namespace Boot_Factory.Controllers
             HttpContext.Session.SetInt32("SessionCart", salesdta);
 
             return RedirectToAction(nameof(Basket));
-
-
         }
 
+        // Display About us page
+        [AllowAnonymous]
         public IActionResult About()
         {
             return View();
         }
 
+        //Display Privacy Policy Page
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
         }
+
+        // Checkout page : Updates Sales Table on checkout
+        [Authorize(Roles = "Customer")]
         public IActionResult Checkout()
         {
 
@@ -183,7 +210,6 @@ namespace Boot_Factory.Controllers
 
             foreach (var eachrow in sales)
             {
-                // change the properties
                 eachrow.SaleStatus = true;
             }
             HttpContext.Session.SetInt32("SessionCart", 0);
@@ -192,6 +218,8 @@ namespace Boot_Factory.Controllers
         }
 
 
+        // Customer basket items with total count and total price
+        [AllowAnonymous]
         public async Task<IActionResult> Basket()
         {
             var item = from pdt in _context.Products
@@ -212,6 +240,8 @@ namespace Boot_Factory.Controllers
         }
 
 
+        // Customers purchased items list
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Orders ()
         {
             var item = from pdt in _context.Products
@@ -222,7 +252,5 @@ namespace Boot_Factory.Controllers
             return View(await item.ToListAsync());
 
         }
-
-
     }
 }

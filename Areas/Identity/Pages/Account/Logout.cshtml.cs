@@ -31,6 +31,8 @@ namespace Boot_Factory.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+
+            //Delete session that stores basket total value
             HttpContext.Session.Remove("SessionCart");
             if (returnUrl != null)
             {
