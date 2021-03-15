@@ -29,7 +29,7 @@ namespace Boot_Factory.Controllers
         
         //Create a Query
         [AllowAnonymous]
-        public IActionResult Create()
+        public IActionResult Query()
         {
             return View();
         }
@@ -45,7 +45,7 @@ namespace Boot_Factory.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Query")] ContactUs contactUs)
+        public async Task<IActionResult> Query([Bind("Id,Name,Email,Query")] ContactUs contactUs)
         {
             if (ModelState.IsValid)
             {

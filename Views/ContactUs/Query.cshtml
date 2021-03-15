@@ -8,8 +8,8 @@
     <h4 class="alert alert-dark">Contact Us</h4>
     <hr />
     <div class="row p-4">
-        <div class="col-md-4">
-            <form asp-action="Create">
+        <div class="col-sm-8">
+            <form asp-action="Query">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
@@ -30,6 +30,28 @@
                     <input type="submit" value="Send Query" class="btn btn-primary" />
                 </div>
             </form>
+        </div>
+
+            <div class="col-sm-4">
+                <h3>Contact Details</h3>
+                <hr align="left" width="50%">
+                <h4 class="pt-2">Address</h4>
+                <i class="fa fa-globe" style="color:#000"></i> Mr. Digin Dominic<br>IT security student<br> Nottingham Trent University, Clifton
+                <h4 class="pt-2">Phone</h4>
+                <i class="fa fa-phone" style="color:#000"></i> +44 7424003671<br>
+                <i class="fa fa-whatsapp" style="color:#000"></i> +44 7424003671<br>
+                <h4 class="pt-2">Email</h4>
+                <i class="fa fa-envelope" style="color:#000"></i> <a href="mailto:N0984858@my.ntu.ac.uk">N0984858@my.ntu.ac.uk</a><br>
+            </div>
+
+    </div>
+    <div class="container">
+        <h3 class="alert-dark alert">Locate us on Google Map</h3>
+        <hr>
+        <div class="row">
+            <div class="col-sm-8">
+                <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJLWfVPIjCeUgR-zZBzvRKeF0&key=AIzaSyBwHT_FAAnsqYcM9O8sC096GBkNDGPmqOo"></iframe>
+            </div>
         </div>
     </div>
 </div>
