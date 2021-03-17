@@ -136,12 +136,13 @@ namespace Boot_Factory.Controllers
             return View(await item.ToListAsync());
         }
 
+
         // Add to Cart
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> AddtoCart(int id)
         {
             Products products = await _context.Products.FindAsync(id);
-            
+
             var ifproduct = _context.Products.FirstOrDefault(b => b.Id == id);
             var userEmail = User.Identity.Name;
 
@@ -151,7 +152,7 @@ namespace Boot_Factory.Controllers
                 if (ifproduct != null && User.IsInRole("Customer"))
                 {
 
-                   _context.Sales.Add(new Sales { CustomerEmail = userEmail, ProductId = (int)id, SaleStatus = false, ItemName = ifproduct.ProductName, ItemImage = ifproduct.ProductImage, ItemCartPrice = ifproduct.ProductPrice });
+                    _context.Sales.Add(new Sales { CustomerEmail = userEmail, ProductId = (int)id, SaleStatus = false, ItemName = ifproduct.ProductName, ItemImage = ifproduct.ProductImage, ItemCartPrice = ifproduct.ProductPrice });
 
                 }
 
@@ -159,7 +160,7 @@ namespace Boot_Factory.Controllers
                 var salesdata = from m in _context.Sales
                                 select m;
 
-                int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(User.Identity.Name) && s.SaleStatus.Equals(false))+1;
+                int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(User.Identity.Name) && s.SaleStatus.Equals(false)) + 1;
                 HttpContext.Session.SetInt32("SessionCart", salesdta);
 
                 _context.SaveChanges();
@@ -218,12 +219,12 @@ namespace Boot_Factory.Controllers
         }
 
 
-        // Customer basket items with total count and total price
+         //Customer basket items with total count and total price
         [AllowAnonymous]
         public async Task<IActionResult> Basket()
         {
             var item = from pdt in _context.Products
-                       join sal in _context.Sales on pdt.Id equals sal.ProductId 
+                       join sal in _context.Sales on pdt.Id equals sal.ProductId
                        where sal.CustomerEmail == User.Identity.Name && sal.SaleStatus == false
                        select sal;
             ViewData["Sum"] = item.Sum(i => i.ItemCartPrice);
@@ -232,6 +233,8 @@ namespace Boot_Factory.Controllers
             ViewData["CartCount"] = salesdta;
             return View(await item.ToListAsync());
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
