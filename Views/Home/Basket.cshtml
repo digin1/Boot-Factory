@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Boot_Factory.Models.Sales>
+@using System
 
 
 @{
@@ -8,45 +9,43 @@
 
 
 
-
-
 <div class="container-fluid p-4" style="background-color: #f1f3f6">
 
-    <h4 class="alert alert-dark">Your Basket</h4>
+        <h4 class="alert alert-dark">Your Basket</h4>
 
-    <div class="row p-4">
+        <div class="row p-4">
         <div class="col p-2 border-right">
-            <ul class="list-unstyled">
-                @foreach (var sal in Model)
-                {
-                    <li class="media p-2 border-bottom">
-                        <img src="/images/ItemImages/@Html.DisplayFor(modelItem => sal.ItemImage)" class="mr-3 w-25 h-25" alt="@Html.DisplayFor(modelItem => sal.ItemName)">
-                        <div class="media-body">
-                            <h5 class="mt-0 mb-1">@Html.DisplayFor(modelItem => sal.ItemName) <span class="badge badge-secondary">£@Html.DisplayFor(modelItem => sal.ItemCartPrice)</span></h5>
-                            <a asp-action="ItemPage" class="btn btn-primary" asp-route-id="@sal.ProductId">Details</a>
-                            <a asp-action="RemoveFromCart" class="btn btn-danger" asp-route-id="@sal.Id"><i class="fa fa-trash" alt="Remove from Basket" aria-hidden="true"></i></a>
-                        </div>
-                    </li>
+            <a asp-action="Index" class="btn btn-success">Add products</a>
+            <ul class="list-unstyled border-top mt-2">
+                    @foreach (var sal in Model)
+                    {
+                        <li class="media p-2 border-bottom">
+                            <img src="/images/ItemImages/@Html.DisplayFor(modelItem => sal.ItemImage)" class="mr-3 w-25 h-25" alt="@Html.DisplayFor(modelItem => sal.ItemName)">
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-1">@Html.DisplayFor(modelItem => sal.ItemName) <span class="badge badge-secondary">£@Html.DisplayFor(modelItem => sal.ItemCartPrice)</span></h5>
+                                <a asp-action="ItemPage" class="btn btn-primary" asp-route-id="@sal.ProductId">Details</a>
+                                <a asp-action="RemoveFromCart" class="btn btn-danger" asp-route-id="@sal.Id"><i class="fa fa-trash" alt="Remove from Basket" aria-hidden="true"></i></a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col">
+                Basket Subtotal (@ViewData["CartCount"] item): <h3 class="b">£@ViewData["Sum"]</h3>
+                @{
+                    if ((int)ViewData["CartCount"] == 0)
+                    {
+                        <a asp-action="Index" class="btn btn-warning ">Browse products</a>
+                    }
+                    else
+                    {
+                        <a asp-action="CheckOut" class="btn btn-warning ">Proceed to check out</a>
+                    }
                 }
-            </ul>
-        </div>
-        <div class="col">
-            Basket Subtotal (@ViewData["CartCount"] item): <h3 class="b">£@ViewData["Sum"]</h3>
-            @{
-                if ((int)ViewData["CartCount"] == 0)
-                {
-                    <a asp-action="Index" class="btn btn-warning ">Browse products</a>
-                }
-                else
-                {
-                    <a asp-action="CheckOut" class="btn btn-warning ">Proceed to check out</a>
-                }
-            }
 
+            </div>
         </div>
+
     </div>
-
-</div>
-
 
 

@@ -34,6 +34,8 @@ namespace Boot_Factory.Areas.Identity.Pages.Account
 
             //Delete session that stores basket total value
             HttpContext.Session.Remove("SessionCart");
+
+
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);

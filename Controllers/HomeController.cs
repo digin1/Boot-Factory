@@ -141,9 +141,13 @@ namespace Boot_Factory.Controllers
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> AddtoCart(int id)
         {
+            //fetching product by id
             Products products = await _context.Products.FindAsync(id);
 
+            //getting all fields of product
             var ifproduct = _context.Products.FirstOrDefault(b => b.Id == id);
+
+            // getting current signed in user
             var userEmail = User.Identity.Name;
 
 
@@ -151,23 +155,25 @@ namespace Boot_Factory.Controllers
             {
                 if (ifproduct != null && User.IsInRole("Customer"))
                 {
-
+                    //Copying and inserting the product values and customer information to the table sales
                     _context.Sales.Add(new Sales { CustomerEmail = userEmail, ProductId = (int)id, SaleStatus = false, ItemName = ifproduct.ProductName, ItemImage = ifproduct.ProductImage, ItemCartPrice = ifproduct.ProductPrice });
+                    // Updating session variable for basket count
+                    var salesdata = from m in _context.Sales
+                                    select m;
 
+                    int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(User.Identity.Name) && s.SaleStatus.Equals(false)) + 1;
+                    HttpContext.Session.SetInt32("SessionCart", salesdta);
                 }
 
-                // Updating session variable for basket count
-                var salesdata = from m in _context.Sales
-                                select m;
 
-                int salesdta = salesdata.Count(s => s.CustomerEmail.Equals(User.Identity.Name) && s.SaleStatus.Equals(false)) + 1;
-                HttpContext.Session.SetInt32("SessionCart", salesdta);
 
                 _context.SaveChanges();
 
             }
             return RedirectToAction(nameof(Index));
         }
+
+
 
         // Delete from cart 
         [Authorize(Roles = "Customer")]
