@@ -69,6 +69,6 @@ slider.addEventListener("change", sliderPlay);
 
 
 function SetVolume(val) {
-    var player = document.getElementById('myvideo');
-    player.volume = val / 100;
+    var volplayer = document.getElementById('myvideo');
+    volplayer.volume = val / 100;
 }

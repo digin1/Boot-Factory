@@ -225,7 +225,7 @@ namespace Boot_Factory.Controllers
         }
 
 
-         //Customer basket items with total count and total price
+        //Customer basket items with total count and total price
         [AllowAnonymous]
         public async Task<IActionResult> Basket()
         {
@@ -233,14 +233,13 @@ namespace Boot_Factory.Controllers
                        join sal in _context.Sales on pdt.Id equals sal.ProductId
                        where sal.CustomerEmail == User.Identity.Name && sal.SaleStatus == false
                        select sal;
+
             ViewData["Sum"] = item.Sum(i => i.ItemCartPrice);
 
             int salesdta = item.Count(s => s.CustomerEmail.Equals(User.Identity.Name) && s.SaleStatus.Equals(false));
             ViewData["CartCount"] = salesdta;
             return View(await item.ToListAsync());
         }
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
